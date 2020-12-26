@@ -1043,7 +1043,7 @@
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 40
+#define PROBING_MARGIN 35
 
 // X and Y axis travel speed (mm/min) between probes
 #define XY_PROBE_SPEED (150 * 60)
@@ -1116,7 +1116,7 @@
 
 // For M851 give a range for adjusting the Z probe offset
 #define Z_PROBE_OFFSET_RANGE_MIN -5
-#define Z_PROBE_OFFSET_RANGE_MAX 0
+#define Z_PROBE_OFFSET_RANGE_MAX 5
 
 // Enable the M48 repeatability test to test probe accuracy
 #define Z_MIN_PROBE_REPEATABILITY_TEST
@@ -1422,7 +1422,7 @@
 #if EITHER(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
 // Set the number of grid points per dimension.
-#define GRID_MAX_POINTS_X 4
+#define GRID_MAX_POINTS_X 9
 #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
 // Probe along the Y axis, advancing X after each column
