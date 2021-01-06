@@ -2060,12 +2060,12 @@
 #if ENABLED(FWRETRACT)
 #define FWRETRACT_AUTORETRACT // Override slicer retractions
 #if ENABLED(FWRETRACT_AUTORETRACT)
-#define MIN_AUTORETRACT 0.1 // (mm) Don't convert E moves under this length
-#define MAX_AUTORETRACT 4.0 // (mm) Don't convert E moves over this length
+#define MIN_AUTORETRACT 0.1  // (mm) Don't convert E moves under this length
+#define MAX_AUTORETRACT 10.0 // (mm) Don't convert E moves over this length
 #endif
 #define RETRACT_LENGTH 2.25             // (mm) Default retract length (positive value)
 #define RETRACT_LENGTH_SWAP 2.25        // (mm) Default swap retract length (positive value)
-#define RETRACT_FEEDRATE 20             // (mm/s) Default feedrate for retracting
+#define RETRACT_FEEDRATE 5              // (mm/s) Default feedrate for retracting
 #define RETRACT_ZRAISE 0                // (mm) Default retract Z-raise
 #define RETRACT_RECOVER_LENGTH 0        // (mm) Default additional recover length (added to retract length on recover)
 #define RETRACT_RECOVER_LENGTH_SWAP 0   // (mm) Default additional swap recover length (added to retract length on recover from toolchange)
@@ -2612,7 +2612,7 @@
    * STEALTHCHOP_(XY|Z|E) must be enabled to use HYBRID_THRESHOLD.
    * M913 X/Y/Z/E to live tune the setting
    */
-#define HYBRID_THRESHOLD
+//#define HYBRID_THRESHOLD
 
 #define X_HYBRID_THRESHOLD 100 // [mm/s]
 #define X2_HYBRID_THRESHOLD 100
