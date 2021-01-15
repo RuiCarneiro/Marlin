@@ -666,11 +666,11 @@
 
 #define HOMING_BUMP_MM \
    {                   \
-      5, 5, 2          \
+      10, 10, 2        \
    } // (mm) Backoff from endstops after first bump
 #define HOMING_BUMP_DIVISOR \
    {                        \
-      2, 2, 4               \
+      2, 2, 2               \
    } // Re-Bump Speed Divisor (Divides the Homing Feedrate)
 
 //#define HOMING_BACKOFF_POST_MM { 2, 2, 2 }  // (mm) Backoff from endstops after homing
@@ -1424,12 +1424,15 @@
    * Set this option to one of the following (or the board's defaults apply):
    *
    *           LCD - Use the SD drive in the external LCD controller.
-   *       ONBOARD - Use the SD drive on the control board. (No SD_DETECT_PIN. M21 to init.)
+   *       ONBOARD - Use the SD drive on the control board.
    *  CUSTOM_CABLE - Use a custom cable to access the SD (as defined in a pins file).
    *
    * :[ 'LCD', 'ONBOARD', 'CUSTOM_CABLE' ]
    */
 //#define SDCARD_CONNECTION LCD
+
+// Enable if SD detect is rendered useless (e.g., by using an SD extender)
+//#define NO_SD_DETECT
 
 #endif // SDSUPPORT
 
@@ -2366,7 +2369,7 @@
  */
 #if HAS_TRINAMIC_CONFIG
 
-#define HOLD_MULTIPLIER 0.99 // Scales down the holding current from run current
+#define HOLD_MULTIPLIER 0.5 // Scales down the holding current from run current
 
 /**
    * Interpolate microsteps to 256
@@ -2376,9 +2379,9 @@
 #define RAMBO_R_SENSE 0.22
 
 #if AXIS_IS_TMC(X)
-#define X_CURRENT 500            // (mA) RMS current. Multiply by 1.414 for peak current.
-#define X_CURRENT_HOME X_CURRENT // (mA) RMS current for sensorless homing
-#define X_MICROSTEPS 16          // 0..256
+#define X_CURRENT 580                  // (mA) RMS current. Multiply by 1.414 for peak current.
+#define X_CURRENT_HOME (X_CURRENT / 2) // (mA) RMS current for sensorless homing
+#define X_MICROSTEPS 16                // 0..256
 #define X_RSENSE RAMBO_R_SENSE
 #define X_CHAIN_POS -1 // -1..0: Not chained. 1: MCU MOSI connected. 2: Next in chain, ...
 //#define X_INTERPOLATE  true      // Enable to override 'INTERPOLATE' for the X axis
@@ -2394,8 +2397,8 @@
 #endif
 
 #if AXIS_IS_TMC(Y)
-#define Y_CURRENT 500
-#define Y_CURRENT_HOME Y_CURRENT
+#define Y_CURRENT 580
+#define Y_CURRENT_HOME (Y_CURRENT / 2)
 #define Y_MICROSTEPS 16
 #define Y_RSENSE RAMBO_R_SENSE
 #define Y_CHAIN_POS -1
@@ -2412,7 +2415,7 @@
 #endif
 
 #if AXIS_IS_TMC(Z)
-#define Z_CURRENT 500
+#define Z_CURRENT 580
 #define Z_CURRENT_HOME Z_CURRENT
 #define Z_MICROSTEPS 16
 #define Z_RSENSE RAMBO_R_SENSE
@@ -2448,7 +2451,7 @@
 #endif
 
 #if AXIS_IS_TMC(E0)
-#define E0_CURRENT 600
+#define E0_CURRENT 650
 #define E0_MICROSTEPS 16
 #define E0_RSENSE RAMBO_R_SENSE
 #define E0_CHAIN_POS -1
@@ -2694,9 +2697,9 @@
 
 #if EITHER(SENSORLESS_HOMING, SENSORLESS_PROBING)
 // TMC2209: 0...255. TMC2130: -64...63
-#define X_STALL_SENSITIVITY 8
+#define X_STALL_SENSITIVITY 10
 #define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
-#define Y_STALL_SENSITIVITY 6
+#define Y_STALL_SENSITIVITY 8
 #define Y2_STALL_SENSITIVITY Y_STALL_SENSITIVITY
 //#define Z_STALL_SENSITIVITY  8
 //#define Z2_STALL_SENSITIVITY Z_STALL_SENSITIVITY
@@ -2716,7 +2719,10 @@
    *
    * Values from 0..1023, -1 to disable homing phase for that axis.
    */
-//#define TMC_HOME_PHASE { 896, 896, 896 }
+#define TMC_HOME_PHASE \
+   {                   \
+      896, 896, -1     \
+   }
 
 /**
    * Beta feature!
@@ -3098,10 +3104,14 @@
 
 #else
 
-#define SPEED_POWER_INTERCEPT 0 // (%) 0-100 i.e., Minimum power percentage
-#define SPEED_POWER_MIN 0       // (%) 0-100
-#define SPEED_POWER_MAX 100     // (%) 0-100
-#define SPEED_POWER_STARTUP 80  // (%) M3/M4 speed/power default (with no arguments)
+#define SPEED_POWER_INTERCEPT 0  // (%) 0-100 i.e., Minimum power percentage
+#define SPEED_POWER_MIN 0        // (%) 0-100
+#define SPEED_POWER_MAX 100      // (%) 0-100
+#define SPEED_POWER_STARTUP 80   // (%) M3/M4 speed/power default (with no arguments)
+
+// Define the minimum and maximum test pulse time values for a laser test fire function
+#define LASER_TEST_PULSE_MIN 1   // Used with Laser Control Menu
+#define LASER_TEST_PULSE_MAX 999 // Caution: Menu may not show more than 3 characters
 
 /**
      * Enable inline laser power to be handled in the planner / stepper routines.
