@@ -1459,11 +1459,11 @@
 //#define DOGM_SD_PERCENT
 
 // Save many cycles by drawing a hollow frame or no frame on the Info Screen
-//#define XYZ_NO_FRAME
-#define XYZ_HOLLOW_FRAME
+#define XYZ_NO_FRAME
+//#define XYZ_HOLLOW_FRAME
 
 // Enable to save many cycles by drawing a hollow frame on Menu Screens
-//#define MENU_HOLLOW_FRAME
+#define MENU_HOLLOW_FRAME
 
 // A bigger font is available for edit items. Costs 3120 bytes of PROGMEM.
 // Western only. Not available for Cyrillic, Kana, Turkish, Greek, or Chinese.
@@ -1471,7 +1471,7 @@
 
 // A smaller font may be used on the Info Screen. Costs 2434 bytes of PROGMEM.
 // Western only. Not available for Cyrillic, Kana, Turkish, Greek, or Chinese.
-#define USE_SMALL_INFOFONT
+//#define USE_SMALL_INFOFONT
 
 // Swap the CW/CCW indicators in the graphics overlay
 //#define OVERLAY_GFX_REVERSE
@@ -2697,9 +2697,9 @@
 
 #if EITHER(SENSORLESS_HOMING, SENSORLESS_PROBING)
 // TMC2209: 0...255. TMC2130: -64...63
-#define X_STALL_SENSITIVITY 10
+#define X_STALL_SENSITIVITY 6
 #define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
-#define Y_STALL_SENSITIVITY 8
+#define Y_STALL_SENSITIVITY 6
 #define Y2_STALL_SENSITIVITY Y_STALL_SENSITIVITY
 //#define Z_STALL_SENSITIVITY  8
 //#define Z2_STALL_SENSITIVITY Z_STALL_SENSITIVITY
