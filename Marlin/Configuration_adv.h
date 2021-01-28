@@ -1563,6 +1563,16 @@
 #endif // HAS_DGUS_LCD
 
 //
+// Specify additional languages for the UI. Default specified by LCD_LANGUAGE.
+//
+#if EITHER(DOGLCD, TOUCH_UI_FTDI_EVE)
+//#define LCD_LANGUAGE_2 fr
+//#define LCD_LANGUAGE_3 de
+//#define LCD_LANGUAGE_4 es
+//#define LCD_LANGUAGE_5 it
+#endif
+
+//
 // Touch UI for the FTDI Embedded Video Engine (EVE)
 //
 #if ENABLED(TOUCH_UI_FTDI_EVE)
@@ -1636,13 +1646,6 @@
 
 // Use a smaller font when labels don't fit buttons
 #define TOUCH_UI_FIT_TEXT
-
-// Allow language selection from menu at run-time (otherwise use LCD_LANGUAGE)
-//#define LCD_LANGUAGE_1 en
-//#define LCD_LANGUAGE_2 fr
-//#define LCD_LANGUAGE_3 de
-//#define LCD_LANGUAGE_4 es
-//#define LCD_LANGUAGE_5 it
 
 // Use a numeric passcode for "Screen lock" keypad.
 // (recommended for smaller displays)
@@ -2100,16 +2103,16 @@
 #define MIN_AUTORETRACT 0.1  // (mm) Don't convert E moves under this length
 #define MAX_AUTORETRACT 10.0 // (mm) Don't convert E moves over this length
 #endif
-#define RETRACT_LENGTH 2.25             // (mm) Default retract length (positive value)
-#define RETRACT_LENGTH_SWAP 2.25        // (mm) Default swap retract length (positive value)
+#define RETRACT_LENGTH 2.4              // (mm) Default retract length (positive value)
+#define RETRACT_LENGTH_SWAP 13          // (mm) Default swap retract length (positive value)
 #define RETRACT_FEEDRATE 5              // (mm/s) Default feedrate for retracting
 #define RETRACT_ZRAISE 0                // (mm) Default retract Z-raise
 #define RETRACT_RECOVER_LENGTH 0        // (mm) Default additional recover length (added to retract length on recover)
 #define RETRACT_RECOVER_LENGTH_SWAP 0   // (mm) Default additional swap recover length (added to retract length on recover from toolchange)
-#define RETRACT_RECOVER_FEEDRATE 20     // (mm/s) Default feedrate for recovering from retraction
+#define RETRACT_RECOVER_FEEDRATE 5      // (mm/s) Default feedrate for recovering from retraction
 #define RETRACT_RECOVER_FEEDRATE_SWAP 8 // (mm/s) Default feedrate for recovering from swap retraction
 #if ENABLED(MIXING_EXTRUDER)
-//#define RETRACT_SYNC_MIXING         // Retract and restore all mixing steppers simultaneously
+//#define RETRACT_SYNC_MIXING           // Retract and restore all mixing steppers simultaneously
 #endif
 #endif
 
@@ -3345,6 +3348,8 @@
 #if ENABLED(FASTER_GCODE_PARSER)
 //#define GCODE_QUOTED_STRINGS  // Support for quoted string parameters
 #endif
+
+//#define MEATPACK                // Support for MeatPack G-code compression (https://github.com/scottmudge/OctoPrint-MeatPack)
 
 #define GCODE_CASE_INSENSITIVE // Accept G-code sent to the firmware in lowercase
 
