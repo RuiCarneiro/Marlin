@@ -887,11 +887,11 @@
  * When changing speed and direction, if the difference is less than the
  * value set here, it may happen instantaneously.
  */
-//#define CLASSIC_JERK
+#define CLASSIC_JERK
 #if ENABLED(CLASSIC_JERK)
-#define DEFAULT_XJERK 10.0
-#define DEFAULT_YJERK 10.0
-#define DEFAULT_ZJERK 0.3
+#define DEFAULT_XJERK 8.0
+#define DEFAULT_YJERK 8.0
+#define DEFAULT_ZJERK 0.4
 
 //#define TRAVEL_EXTRA_XYJERK 0.0     // Additional jerk allowance for all travel moves
 
@@ -904,7 +904,7 @@
 #endif
 #endif
 
-#define DEFAULT_EJERK 4.0 // May be used by Linear Advance
+#define DEFAULT_EJERK 4.5 // May be used by Linear Advance
 
 /**
  * Junction Deviation Factor
@@ -1103,7 +1103,7 @@
 #define PROBING_MARGIN 35
 
 // X and Y axis travel speed (mm/min) between probes
-#define XY_PROBE_FEEDRATE(133 * 60)
+#define XY_PROBE_FEEDRATE (133 * 60)
 
 // Feedrate (mm/min) for the first approach when double-probing (MULTIPLE_PROBING == 2)
 #define Z_PROBE_FEEDRATE_FAST (4 * 60)
@@ -1775,7 +1775,7 @@
 // Specify a park position as { X, Y, Z_raise }
 #define NOZZLE_PARK_POINT \
   {                       \
-    (0, 0, 50             \
+    0, 0, 50              \
   }
 //#define NOZZLE_PARK_X_ONLY          // X move only is required to park
 //#define NOZZLE_PARK_Y_ONLY          // Y move only is required to park
