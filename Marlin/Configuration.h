@@ -135,7 +135,7 @@
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
-//#define MACHINE_UUID "00000000-0000-0000-0000-000000000000"
+#define MACHINE_UUID "5b043e7d-3698-4993-b5ef-1b675d6a15c8"
 
 // @section extruder
 
@@ -437,8 +437,10 @@
 #define TEMP_SENSOR_7 0
 #define TEMP_SENSOR_BED 1
 #define TEMP_SENSOR_PROBE 0
-#define TEMP_SENSOR_CHAMBER 0
+#define TEMP_SENSOR_CHAMBER 998
 #define TEMP_SENSOR_COOLER 0
+
+#define TEMP_CHAMBER_PIN TEMP_1_PIN
 
 // Dummy thermistor constant temperature readings, for use with 998 and 999
 #define DUMMY_THERMISTOR_998_VALUE 25
