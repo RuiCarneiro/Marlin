@@ -1095,7 +1095,7 @@
  */
 #define NOZZLE_TO_PROBE_OFFSET \
   {                            \
-    -42, -4, 0                 \
+    -46.3, +1, 0               \
   }
 
 // Most probes should stay away from the edges of the bed, but
