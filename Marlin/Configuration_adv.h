@@ -30,7 +30,7 @@
  *
  * Basic settings can be found in Configuration.h
  */
-#define CONFIGURATION_ADV_H_VERSION 020008
+#define CONFIGURATION_ADV_H_VERSION 02000801
 
 //===========================================================================
 //============================= Thermal Settings ============================
@@ -1452,6 +1452,9 @@
 //#define BROWSE_MEDIA_ON_INSERT          // Open the file browser when media is
 // inserted
 
+//#define MEDIA_MENU_AT_TOP               // Force the media menu to be listed
+//on the top of the main menu
+
 #define EVENT_GCODE_SD_ABORT                                                   \
   "G28XY" // G-code to run on SD Abort Print (e.g., "G28XY" or "G27")
 
@@ -1476,7 +1479,7 @@
 //#define BACKUP_POWER_SUPPLY       // Backup power / UPS to move the steppers
 // on power loss #define POWER_LOSS_ZRAISE       2 // (mm) Z axis raise on
 // resume (on power loss with UPS) #define POWER_LOSS_PIN         44 // Pin to
-//detect power loss. Set to -1 to disable default pin on boards without module.
+// detect power loss. Set to -1 to disable default pin on boards without module.
 // #define POWER_LOSS_STATE     HIGH // State of pin indicating power loss
 // #define POWER_LOSS_PULLUP         // Set pullup / pulldown as appropriate for
 // your sensor #define POWER_LOSS_PULLDOWN #define POWER_LOSS_PURGE_LEN   20 //
@@ -1639,28 +1642,13 @@
 // Add an optimized binary file transfer mode, initiated with 'M28 B1'
 //#define BINARY_FILE_TRANSFER
 
-/**
- * Set this option to one of the following (or the board's defaults apply):
- *
- *           LCD - Use the SD drive in the external LCD controller.
- *       ONBOARD - Use the SD drive on the control board.
- *  CUSTOM_CABLE - Use a custom cable to access the SD (as defined in a pins
- * file).
- *
- * :[ 'LCD', 'ONBOARD', 'CUSTOM_CABLE' ]
- */
-//#define SDCARD_CONNECTION LCD
-
-// Enable if SD detect is rendered useless (e.g., by using an SD extender)
-//#define NO_SD_DETECT
-
 // Multiple volume support - EXPERIMENTAL.
 //#define MULTI_VOLUME
 #if ENABLED(MULTI_VOLUME)
 #define VOLUME_SD_ONBOARD
 #define VOLUME_USB_FLASH_DRIVE
-#define DEFAULT_VOLUME SD_ONBOARD
-#define DEFAULT_SHARED_VOLUME USB_FLASH_DRIVE
+#define DEFAULT_VOLUME SV_SD_ONBOARD
+#define DEFAULT_SHARED_VOLUME SV_USB_FLASH_DRIVE
 #endif
 
 #endif // SDSUPPORT
@@ -2329,9 +2317,6 @@
 //#define SERIAL_XON_XOFF
 #endif
 
-// Add M575 G-code to change the baud rate
-//#define BAUD_RATE_GCODE
-
 #if ENABLED(SDSUPPORT)
 // Enable this option to collect and display the maximum
 // RX queue usage after transferring a file to SD.
@@ -2456,19 +2441,23 @@
  * Applies to all types of extruders except where explicitly noted.
  */
 #if HAS_MULTI_EXTRUDER
-  // Z raise distance for tool-change, as needed for some extruders
-  #define TOOLCHANGE_ZRAISE                 2 // (mm)
-  //#define TOOLCHANGE_ZRAISE_BEFORE_RETRACT  // Apply raise before swap
-retraction (if enabled)
-  //#define TOOLCHANGE_NO_RETURN              // Never return to previous
-position on tool-change #if ENABLED(TOOLCHANGE_NO_RETURN)
+// Z raise distance for tool-change, as needed for some extruders
+#define TOOLCHANGE_ZRAISE 2 // (mm)
+//#define TOOLCHANGE_ZRAISE_BEFORE_RETRACT  // Apply raise before swap
+retraction(if enabled)
+    //#define TOOLCHANGE_NO_RETURN              // Never return to previous
+    position on tool
+    -
+    change #if ENABLED (TOOLCHANGE_NO_RETURN)
     //#define EVENT_GCODE_AFTER_TOOLCHANGE "G12X"   // Extra G-code to run after
-tool-change #endif
+    tool
+    -
+    change #endif
 
-  /**
-   * Tool Sensors detect when tools have been picked up or dropped.
-   * Requires the pins TOOL_SENSOR1_PIN, TOOL_SENSOR2_PIN, etc.
-   */
+/**
+ * Tool Sensors detect when tools have been picked up or dropped.
+ * Requires the pins TOOL_SENSOR1_PIN, TOOL_SENSOR2_PIN, etc.
+ */
 //#define TOOL_SENSOR
 
 /**
@@ -2534,15 +2523,16 @@ tool-change #endif
 #endif // HAS_MULTI_EXTRUDER
 
 /**
- * Advanced Pause
- * Experimental feature for filament change support and for parking the nozzle
- * when paused. Adds the GCode M600 for initiating filament change. If
- * PARK_HEAD_ON_PAUSE enabled, adds the GCode M125 to pause printing and park
- * the nozzle.
+ * Advanced Pause for Filament Change
+ *  - Adds the G-code M600 Filament Change to initiate a filament change.
+ *  - This feature is required for the default FILAMENT_RUNOUT_SCRIPT.
  *
- * Requires an LCD display.
- * Requires NOZZLE_PARK_FEATURE.
- * This feature is required for the default FILAMENT_RUNOUT_SCRIPT.
+ * Requirements:
+ *  - For Filament Change parking enable and configure NOZZLE_PARK_FEATURE.
+ *  - For user interaction enable an LCD display, HOST_PROMPT_SUPPORT, or
+ * EMERGENCY_PARSER.
+ *
+ * Enable PARK_HEAD_ON_PAUSE to add the G-code M125 Pause and Park.
  */
 #define ADVANCED_PAUSE_FEATURE
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
@@ -2963,21 +2953,21 @@ TMC5160 drivers here.
 #define STEALTHCHOP_Z
 #define STEALTHCHOP_E
 
-    /**
-     * Optimize spreadCycle chopper parameters by using predefined parameter
-     * sets or with the help of an example included in the library. Provided
-     * parameter sets are CHOPPER_DEFAULT_12V CHOPPER_DEFAULT_19V
-     * CHOPPER_DEFAULT_24V
-     * CHOPPER_DEFAULT_36V
-     * CHOPPER_09STEP_24V   // 0.9 degree steppers (24V)
-     * CHOPPER_PRUSAMK3_24V // Imported parameters from the official Průša
-     * firmware for MK3 (24V) CHOPPER_MARLIN_119   // Old defaults from Marlin
-     * v1.1.9
-     *
-     * Define your own with:
-     * { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
-     */
-    #define CHOPPER_TIMING CHOPPER_PRUSAMK3_24V // All axes (override below)
+/**
+ * Optimize spreadCycle chopper parameters by using predefined parameter
+ * sets or with the help of an example included in the library. Provided
+ * parameter sets are CHOPPER_DEFAULT_12V CHOPPER_DEFAULT_19V
+ * CHOPPER_DEFAULT_24V
+ * CHOPPER_DEFAULT_36V
+ * CHOPPER_09STEP_24V   // 0.9 degree steppers (24V)
+ * CHOPPER_PRUSAMK3_24V // Imported parameters from the official Průša
+ * firmware for MK3 (24V) CHOPPER_MARLIN_119   // Old defaults from Marlin
+ * v1.1.9
+ *
+ * Define your own with:
+ * { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
+ */
+#define CHOPPER_TIMING CHOPPER_PRUSAMK3_24V // All axes (override below)
 //#define CHOPPER_TIMING_X  CHOPPER_DEFAULT_12V   // For X Axes (override below)
 //#define CHOPPER_TIMING_X2 CHOPPER_DEFAULT_12V
 //#define CHOPPER_TIMING_Y  CHOPPER_DEFAULT_12V   // For Y Axes (override below)
@@ -3433,10 +3423,10 @@ Report values if no axis codes given.
 #define SPINDLE_LASER_FREQUENCY                                                \
   2500 // (Hz) Spindle/laser frequency (only on supported HALs: AVR and LPC)
 
-                                                //#define AIR_EVACUATION //
-                                                // Cutter Vacuum / Laser Blower
-                                                // motor control with G-codes
-                                                // M10-M11
+//#define AIR_EVACUATION //
+// Cutter Vacuum / Laser Blower
+// motor control with G-codes
+// M10-M11
 #if ENABLED(AIR_EVACUATION)
 #define AIR_EVACUATION_ACTIVE                                                  \
   LOW // Set to "HIGH" if the on/off function is active HIGH
@@ -3680,20 +3670,20 @@ Report values if no axis codes given.
 //#define FILAMENT_LCD_DISPLAY
 #endif
 
-    /**
-     * Power Monitor
-     * Monitor voltage (V) and/or current (A), and -when possible- power (W)
-     *
-     * Read and configure with M430
-     *
-     * The current sensor feeds DC voltage (relative to the measured current) to
-     * an analog pin The voltage sensor feeds DC voltage (relative to the
-     * measured voltage) to an analog pin
-     */
-    //#define POWER_MONITOR_CURRENT   // Monitor the system current
-    //#define POWER_MONITOR_VOLTAGE   // Monitor the system voltage
+/**
+ * Power Monitor
+ * Monitor voltage (V) and/or current (A), and -when possible- power (W)
+ *
+ * Read and configure with M430
+ *
+ * The current sensor feeds DC voltage (relative to the measured current) to
+ * an analog pin The voltage sensor feeds DC voltage (relative to the
+ * measured voltage) to an analog pin
+ */
+//#define POWER_MONITOR_CURRENT   // Monitor the system current
+//#define POWER_MONITOR_VOLTAGE   // Monitor the system voltage
 
-    #if ENABLED(POWER_MONITOR_CURRENT)
+#if ENABLED(POWER_MONITOR_CURRENT)
 #define POWER_MONITOR_VOLTS_PER_AMP                                            \
   0.05000 // Input voltage to the MCU analog pin per amp  - DO NOT apply more
           // than ADC_VREF!
@@ -3702,7 +3692,7 @@ Report values if no axis codes given.
 #define POWER_MONITOR_FIXED_VOLTAGE                                            \
   13.6 // Voltage for a current sensor with no voltage sensor (for power
        // display)
-        #endif
+#endif
 
 #if ENABLED(POWER_MONITOR_VOLTAGE)
 #define POWER_MONITOR_VOLTS_PER_VOLT                                           \
@@ -3733,6 +3723,11 @@ Report values if no axis codes given.
  * Auto-report temperatures with M155 S<seconds>
  */
 #define AUTO_REPORT_TEMPERATURES
+
+/**
+ * Auto-report position with M154 S<seconds>
+ */
+//#define AUTO_REPORT_POSITION
 
 /**
  * Include capabilities in M115 output
@@ -3806,7 +3801,7 @@ Report values if no axis codes given.
 #define PROPORTIONAL_FONT_RATIO 1.0
 
 /**
- * Spend 28 bytes of SRAM to optimize the GCode parser
+ * Spend 28 bytes of SRAM to optimize the G-code parser
  */
 #define FASTER_GCODE_PARSER
 
@@ -4170,6 +4165,16 @@ Report values if no axis codes given.
 #endif
 
 /**
+ * Instant freeze / unfreeze functionality
+ * Specified pin has pullup and connecting to ground will instantly pause
+ * motion. Potentially useful for emergency stop that allows being resumed.
+ */
+//#define FREEZE_FEATURE
+#if ENABLED(FREEZE_FEATURE)
+//#define FREEZE_PIN 41   // Override the default (KILL) pin here
+#endif
+
+/**
  * MAX7219 Debug Matrix
  *
  * Add support for a low-cost 8x8 LED Matrix based on the Max7219 chip as a
@@ -4221,9 +4226,9 @@ Report values if no axis codes given.
  */
 //#define NANODLP_Z_SYNC
 #if ENABLED(NANODLP_Z_SYNC)
-    //#define NANODLP_ALL_AXIS  // Send a "Z_move_comp" report for any axis move
-    //(not just Z).
-    #endif
+//#define NANODLP_ALL_AXIS  // Send a "Z_move_comp" report for any axis move
+//(not just Z).
+#endif
 
 /**
  * Ethernet. Use M552 to enable and set the IP address.
