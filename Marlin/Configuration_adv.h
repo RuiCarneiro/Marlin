@@ -485,7 +485,7 @@
 // When first starting the main fan, run it at full speed for the
 // given number of milliseconds.  This gets the fan spinning reliably
 // before setting a PWM value. (Does not work with software PWM for fan on Sanguinololu)
-//#define FAN_KICKSTART_TIME 100
+#define FAN_KICKSTART_TIME 1000
 
 // Some coolers may require a non-zero "off" state.
 //#define FAN_OFF_PWM  1
@@ -551,7 +551,7 @@
  * Multiple extruders can be assigned to the same pin in which case
  * the fan will turn on when any selected extruder is above the threshold.
  */
-#define E0_AUTO_FAN_PIN FAN1_PIN
+#define E0_AUTO_FAN_PIN  6
 #define E1_AUTO_FAN_PIN -1
 #define E2_AUTO_FAN_PIN -1
 #define E3_AUTO_FAN_PIN -1
@@ -3682,17 +3682,17 @@
 // Custom Menu: Main Menu
 #define CUSTOM_MENU_MAIN
 #if ENABLED(CUSTOM_MENU_MAIN)
-#define CUSTOM_MENU_MAIN_TITLE "Comandos"
+#define CUSTOM_MENU_MAIN_TITLE "Commands"
 #define CUSTOM_MENU_MAIN_SCRIPT_DONE ""
 #define CUSTOM_MENU_MAIN_SCRIPT_AUDIBLE_FEEDBACK
 //#define CUSTOM_MENU_MAIN_SCRIPT_RETURN   // Return to status screen after a script
 #define CUSTOM_MENU_MAIN_ONLY_IDLE         // Only show custom menu when the machine is idle
 
-#define MAIN_MENU_ITEM_1_DESC "Subir Ferramenta"
+#define MAIN_MENU_ITEM_1_DESC "Raise toolhead"
 #define MAIN_MENU_ITEM_1_GCODE "G91\nG1 Z+100 F9999\nG90"
 //#define MAIN_MENU_ITEM_1_CONFIRM          // Show a confirmation dialog before this action
 
-#define MAIN_MENU_ITEM_2_DESC "Provar Cama e Salvar"
+#define MAIN_MENU_ITEM_2_DESC "Probe bed and save"
 #define MAIN_MENU_ITEM_2_GCODE "G28\nG29\nM500"
 //#define MAIN_MENU_ITEM_2_CONFIRM
 
